@@ -13,14 +13,13 @@
 
     <!-- Font Awesome -->
     <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
-    
 
-      <!-- JavaScript APP-->
-      <script src="app.js"></script>
+
+    <!-- JavaScript APP-->
+    <script src="app.js"></script>
 	</head>
 
-  <body onload="loadList()">
-
+  <body onload="loadEdit()">
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-5">
       <div class="container">
@@ -36,7 +35,7 @@
             <li class="nav-item">
               <a class="nav-link" href="index.html">Cadastro</a>
             </li>
-            <li class="nav-item active">
+            <li class="nav-item">
               <a class="nav-link" href="query.html">Consulta</a>
             </li>
           </ul>
@@ -46,9 +45,9 @@
     </nav>
 
     <div class="container">
-      <div class="row mb-5">
-        <div class="col">
-          <h1 class="display-4">Consulta de despesas</h1>
+      <div class="row">
+        <div class="col mb-5">
+          <h1 class="display-4">Editar Despesa</h1>
         </div>
       </div>
 
@@ -97,7 +96,7 @@
         </div>
       </div>
 
-      <div class="row  mb-5">
+      <div class="row">
         <div class="col-md-8">
           <input type="text" class="form-control" placeholder="Descrição" id="descricao" />
         </div>
@@ -107,56 +106,33 @@
         </div>
 
         <div class="col-md-2 d-flex justify-content-end">
-          <button type="button" class="btn btn-primary" onclick="searchExpense()">
-            <i class="fas fa-search"></i>
+          <button type="button" class="btn btn-primary" onclick="EditExpense()">
+            <i class="fas fa-plus"></i>
           </button>
         </div>
       </div>
-
-      <div class="row">
-        <div class="col">
-          <table class="table" >
-            <thead>
-              <tr>
-                <th>Data</th>
-                <th>Tipo</th>
-                <th>Descrição</th>
-                <th>Valor</th>
-                <th></th>
-                <th></th>
-              </tr>
-            </thead>
-
-            <tbody id="ExpenseList">
-              
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-    <div class="container" id="sum">
-
     </div>
 
-    
-  <!-- Modal -->
+      <!-- Modal -->
     <div class="modal fade" id="ModalExpense" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
+        <div class="modal-dialog" role="document">
         <div class="modal-content">
-          <div class="modal-header">
+            <div class="modal-header">
             <h5 class="modal-title" id="ModalTitle"></h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
+                <span aria-hidden="true">&times;</span>
             </button>
-          </div>
-          <div class="modal-body" id="ModalText">
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn" id="btnModal" data-dismiss="modal" onclick="window.location.reload()">Fechar</button>
-          </div>
+            </div>
+            <div class="modal-body" id="ModalText">
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn" id="btnModal" data-dismiss="modal">Fechar</button>
+            
+            </div>
         </div>
-      </div>
-  </div>
+        </div>
+    </div>
+
 
   </body>	
 

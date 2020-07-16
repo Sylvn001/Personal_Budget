@@ -35,6 +35,11 @@ class Bd{
         localStorage.setItem(id , JSON.stringify(d)) 
         localStorage.setItem('id' , id)
     }
+    update(d, id){
+        localStorage.removeItem(id)
+        localStorage.setItem(id, JSON.stringify(d))
+        
+    }
     retrieveRecords(){
 
         //array expense 
@@ -149,8 +154,9 @@ function registerExpense(){
 function loadList(expenses = Array() , filter = false){
     if(expenses.length == 0 && filter == false){
        expenses = bd.retrieveRecords()
+       
     }
-
+    let sum = 0
     let expenseList = document.getElementById('ExpenseList')
     expenseList.innerHTML = ''
 
@@ -174,6 +180,19 @@ function loadList(expenses = Array() , filter = false){
         line.insertCell(1).innerHTML = d.type
         line.insertCell(2).innerHTML = d.description
         line.insertCell(3).innerHTML = d.value
+        sum = sum + parseFloat(d.value)
+    
+        //Edit
+        let edit = document.createElement("button") 
+        edit.id  = `id_expense_${d.id}`
+        edit.className = 'btn btn-dark'
+        edit.innerHTML = '<i class="fas fa-edit" aria-hidden="true"></i>'
+        edit.onclick = function(){
+            window.location.href = `Edit.html?${d.id}`
+            
+        }
+        line.insertCell(4).append(edit)
+        
         //delete button 
         let btn = document.createElement("button")
         btn.id = `id_expense_${d.id}`
@@ -193,11 +212,21 @@ function loadList(expenses = Array() , filter = false){
             document.getElementById('ModalText').innerHTML = 'Os dados foram Excluidos'
             $('#ModalExpense').modal('show')
             //END  --------------------------- ----------------
-          
         }
-        line.insertCell(4).append(btn)
+        line.insertCell(5).append(btn)
+     
     })
+    let element = document.getElementById("sum")
+    if(sum == 0 ){
+        element.innerHTML = `<h3 class="text-danger" style="text-align: center"> Nenhuma despesa foi cadastrada! </h3>`
+    }
+    else{
+        
+        element.innerHTML = `<hr> <h3 style="text-align: center">Total das Despesas: <span class="text-primary"> ${sum} <span> </h3>`
+    }
+    
 }
+
 
 function searchExpense (){
     let year         = document.getElementById('ano').value
@@ -218,6 +247,73 @@ function searchExpense (){
     
     let expenses =  bd.search(expense)
     loadList(expenses, true)
+  
+}
+
+function loadEdit(){
+    let id = window.location.search 
+    id = id.replace('?' , '') 
+
+    date = JSON.parse(localStorage.getItem(id))
+
+    document.getElementById('ano').value       = date.year
+    document.getElementById('mes').value       = date.month
+    document.getElementById('dia').value       = date.day
+    document.getElementById('tipo').value      = date.type
+    document.getElementById('descricao').value = date.description
+    document.getElementById('valor').value     = date.value
+}
+
+function EditExpense(){
+
+    let id = window.location.search 
+    id = id.replace('?' , '') 
+
+    id = parseInt(id)    
+    
+    let year        = document.getElementById('ano')
+    let month       = document.getElementById('mes')
+    let day         = document.getElementById('dia')
+    let type        = document.getElementById('tipo')
+    let description = document.getElementById('descricao')
+    let value       = document.getElementById('valor')
+
+    let expense = new Expense(
+        year.value,
+        month.value,
+        day.value,
+        type.value,
+        description.value,
+        value.value
+    )
+    if(expense.validate()){
+          //Success
+          bd.update(expense, id)
+
+          //Removes classes that previously existed
+          document.getElementById("ModalTitle").classList.remove('text-danger');
+          document.getElementById("btnModal").classList.remove('btn-danger');
+          //create a new class 
+          document.getElementById("ModalTitle").classList.add('text-success');
+          document.getElementById("btnModal").classList.add('btn-success');
+          document.getElementById("btnModal").onclick = function() {window.location.href = "query.html"}
+          document.getElementById('ModalTitle').innerHTML = 'Atualizado com Sucesso'
+          document.getElementById('ModalText').innerHTML = 'A despesa foi atualizada corretamente!!'
+          $('#ModalExpense').modal('show')
+          
+
+    }
+    else{
+         //same here
+        document.getElementById("ModalTitle").classList.remove('text-success');
+        document.getElementById("btnModal").classList.remove('btn-success');
+        //:p
+        document.getElementById("ModalTitle").classList.add('text-danger');
+        document.getElementById("btnModal").classList.add('btn-danger');
+        document.getElementById('ModalTitle').innerHTML = 'Erro ao atualizar'
+        document.getElementById('ModalText').innerHTML = 'Os campos obrigatorios não foram prenchidos'
+        $('#ModalExpense').modal('show')
     
 
+    }
 }
