@@ -25,3 +25,9 @@ The project was based on the use of LocalStorage and using the main functions of
 </ul>
   
  O projeto foi baseado no uso de LocalStorage e usando as principais funções do DOM e JSON
+ 
+ ### Follow me!
+Instagram: https://www.instagram.com/s1lvn/ <br>
+Twitch: https://www.twitch.tv/sylvn001 <br>
+GitHub: https://github.com/Sylvn001
+
